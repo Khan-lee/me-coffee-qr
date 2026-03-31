@@ -1,8 +1,11 @@
 <template>
   <div class="min-h-screen bg-white flex flex-col items-center justify-center p-8 text-center">
-    <div class="mb-10 w-28 h-28 bg-slate-900 rounded-[35px] flex items-center justify-center shadow-2xl rotate-3 relative">
-      <UIcon name="i-heroicons-beaker" class="text-blue-500 text-5xl" />
-      <div class="absolute -bottom-2 -right-2 w-8 h-8 bg-orange-500 rounded-full border-4 border-white"></div>
+    <div class="mb-10 flex flex-col items-center justify-center">
+      <img 
+        src="/logo-me-coffee.png" 
+        alt="Mê Coffee Logo" 
+        class="w-40 h-auto" 
+      />
     </div>
     
     <h1 class="text-3xl font-black text-slate-900 mb-2 uppercase italic tracking-tighter">Mê Coffee</h1>
