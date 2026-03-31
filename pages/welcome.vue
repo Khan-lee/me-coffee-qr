@@ -15,7 +15,11 @@
         size="xl" 
         variant="padded"
         class="text-center font-bold"
-        :ui="{ rounded: 'rounded-2xl', base: 'bg-slate-50 border-none focus:ring-2 focus:ring-blue-500' }" 
+        :ui="{ 
+          rounded: 'rounded-2xl', 
+          base: 'bg-slate-100 border-none focus:ring-2 focus:ring-blue-500 text-slate-900 placeholder-slate-400',
+          placeholder: 'text-slate-400'
+        }" 
       />
       
       <UButton 
@@ -42,7 +46,7 @@ const startOrder = () => {
     useToast().add({ title: 'Opps!', description: 'Bạn chưa nhập tên kìa.', color: 'orange' })
     return
   }
-  // Lưu tên vào Cookie (mặc định bàn 01 nếu chưa có logic QR)
+  // Lưu tên vào Cookie (mặc định bàn 01)
   userInfo.value = { name: userName.value, table: '01' }
   navigateTo('/')
 }
