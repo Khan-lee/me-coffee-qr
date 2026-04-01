@@ -81,7 +81,7 @@ const openBankApp = () => {
   
   // SỬ DỤNG ĐỊNH DẠNG QUICKLINK CHUẨN CỦA VIETQR
   // Cấu trúc: https://qr.vietqr.io/google-app-link?bank=[Mã Ngân Hàng]&account=[STK]&amount=[Số tiền]&memo=[Nội dung]
-  const deepLink = `https://qr.vietqr.io/google-app-link?bank=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&memo=${encodeURIComponent(description)}`
+  const deepLink = `https://qr.vietqr.io/google-app-link?bank=${OCB}&account=${106937}&amount=${amount}&memo=${encodeURIComponent(description)}`
   
   // Lệnh này sẽ kích hoạt bảng chọn App Ngân hàng trên iOS/Android
   window.location.href = deepLink
