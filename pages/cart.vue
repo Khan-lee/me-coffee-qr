@@ -77,13 +77,13 @@ const ACCOUNT_NO = '106937'
 
 const openBankApp = () => {
   const amount = cartTotal.value * 1000
-  // Nội dung chuyển khoản tự động
   const description = `ME COFFEE ${userInfo.value?.name || ''} BAN ${userInfo.value?.table || '01'}`
   
-  // Đã cập nhật sang link QuickClick của VietQR để mở thẳng App ngân hàng
-  const deepLink = `https://qr.onepay.vn/vietqr/api/v2/create-qr-link?bank=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&info=${encodeURIComponent(description)}`
+  // SỬ DỤNG ĐỊNH DẠNG QUICKLINK CHUẨN CỦA VIETQR
+  // Cấu trúc: https://qr.vietqr.io/google-app-link?bank=[Mã Ngân Hàng]&account=[STK]&amount=[Số tiền]&memo=[Nội dung]
+  const deepLink = `https://qr.vietqr.io/google-app-link?bank=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&memo=${encodeURIComponent(description)}`
   
-  // Mở trình chọn App ngân hàng trên điện thoại
+  // Lệnh này sẽ kích hoạt bảng chọn App Ngân hàng trên iOS/Android
   window.location.href = deepLink
 }
 
