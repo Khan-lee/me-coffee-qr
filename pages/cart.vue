@@ -51,7 +51,7 @@
           <div class="border-t border-white/5 pt-6">
             <UButton 
               block 
-              variant="ghost" 
+              variant="ghost"
               class="py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest text-slate-400"
               @click="completeOrder"
             >
@@ -71,28 +71,27 @@ const cart = useCookie('user_cart', { default: () => [] })
 const userInfo = useCookie('user_info')
 const cartTotal = computed(() => cart.value.reduce((sum, item) => sum + item.total, 0))
 
-// THÔNG TIN TÀI KHOẢN
-const BANK_ID = 'OCB' 
-const ACCOUNT_NO = '106937' 
+// THÔNG TIN TÀI KHOẢN CỦA BẠN (CẦN CHÍNH XÁC ĐỂ TẠO LINK)
+const BANK_ID = 'OCB' // Mã ngân hàng (ví dụ: MB, VCB, ICB...)
+const ACCOUNT_NO = '106937' // <--- Số tài khoản thực tế của bạn
+const ACCOUNT_NAME = 'HO KINH DOANH GIA KIET'
 
+// Hàm mở App ngân hàng
 const openBankApp = () => {
   const amount = cartTotal.value * 1000
-  const description = `ME COFFEE ${userInfo.value?.name || ''} BAN ${userInfo.value?.table || '01'}`
+  const description = `MECOFFEE BAN ${userInfo.value?.table || '01'}`
   
-  // ĐỊNH DẠNG LINK MỚI: TỰ ĐỘNG NHẬN DIỆN THIẾT BỊ VÀ MỞ APP
-  // Đây là link chính thức từ VietQR giúp giải quyết lỗi "Địa chỉ không hợp lệ" trên Safari
-  const qrUrl = `https://qr.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-compact2.jpg?amount=${amount}&addInfo=${encodeURIComponent(description)}`
+  // VietQR Deep Link format
+  const vietQrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-compact2.jpg?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`
   
-  // Thay vì dùng deep link trực tiếp dễ bị Safari chặn, 
-  // chúng ta điều hướng qua trang trung gian của VietQR để kích hoạt mở App ngân hàng
-  const finalLink = `https://vietqr.co/ctrl/open-app?qr=${encodeURIComponent(qrUrl)}`
-  
-  window.location.href = finalLink
+  // Chuyển hướng khách tới link QR để kích hoạt mở App ngân hàng
+  window.location.href = vietQrUrl
 }
 
 const completeOrder = async () => {
   if (cart.value.length === 0) return
 
+  // Lưu lịch sử cho Admin
   const history = JSON.parse(localStorage.getItem('order_history') || '[]')
   history.unshift({
     id: Date.now(),
@@ -104,6 +103,7 @@ const completeOrder = async () => {
   })
   localStorage.setItem('order_history', JSON.stringify(history))
 
+  // Gửi Telegram
   const TELEGRAM_TOKEN = '8217364376:AAF3UWNbiTbXp8QgiINsssTQKbytkAFCel4'
   const TELEGRAM_CHAT_ID = '6710878225'
 
