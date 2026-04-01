@@ -79,9 +79,11 @@ const openBankApp = () => {
   const amount = cartTotal.value * 1000
   const description = `ME COFFEE ${userInfo.value?.name || ''} BAN ${userInfo.value?.table || '01'}`
   
-  // Đã sửa lỗi truyền biến BANK_ID và ACCOUNT_NO vào link
-  const deepLink = `https://qr.vietqr.io/google-app-link?bank=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&memo=${encodeURIComponent(description)}`
+  // ĐỊNH DẠNG DEEP LINK CHUẨN ĐỂ MỞ APP (dl.vietqr.io)
+  // Cấu trúc: https://dl.vietqr.io/pay?app=[Mã Ngân Hàng]&account=[STK]&amount=[Số tiền]&memo=[Nội dung]
+  const deepLink = `https://dl.vietqr.io/pay?app=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&memo=${encodeURIComponent(description)}`
   
+  // Thực hiện điều hướng
   window.location.href = deepLink
 }
 
