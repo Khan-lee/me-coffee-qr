@@ -79,11 +79,9 @@ const openBankApp = () => {
   const amount = cartTotal.value * 1000
   const description = `ME COFFEE ${userInfo.value?.name || ''} BAN ${userInfo.value?.table || '01'}`
   
-  // SỬ DỤNG ĐỊNH DẠNG QUICKLINK CHUẨN CỦA VIETQR
-  // Cấu trúc: https://qr.vietqr.io/google-app-link?bank=[Mã Ngân Hàng]&account=[STK]&amount=[Số tiền]&memo=[Nội dung]
-  const deepLink = `https://qr.vietqr.io/google-app-link?bank=${OCB}&account=${106937}&amount=${amount}&memo=${encodeURIComponent(description)}`
+  // Đã sửa lỗi truyền biến BANK_ID và ACCOUNT_NO vào link
+  const deepLink = `https://qr.vietqr.io/google-app-link?bank=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&memo=${encodeURIComponent(description)}`
   
-  // Lệnh này sẽ kích hoạt bảng chọn App Ngân hàng trên iOS/Android
   window.location.href = deepLink
 }
 
