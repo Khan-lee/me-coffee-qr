@@ -79,12 +79,15 @@ const openBankApp = () => {
   const amount = cartTotal.value * 1000
   const description = `ME COFFEE ${userInfo.value?.name || ''} BAN ${userInfo.value?.table || '01'}`
   
-  // ĐỊNH DẠNG DEEP LINK CHUẨN ĐỂ MỞ APP (dl.vietqr.io)
-  // Cấu trúc: https://dl.vietqr.io/pay?app=[Mã Ngân Hàng]&account=[STK]&amount=[Số tiền]&memo=[Nội dung]
-  const deepLink = `https://dl.vietqr.io/pay?app=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&memo=${encodeURIComponent(description)}`
+  // ĐỊNH DẠNG LINK MỚI: TỰ ĐỘNG NHẬN DIỆN THIẾT BỊ VÀ MỞ APP
+  // Đây là link chính thức từ VietQR giúp giải quyết lỗi "Địa chỉ không hợp lệ" trên Safari
+  const qrUrl = `https://qr.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-compact2.jpg?amount=${amount}&addInfo=${encodeURIComponent(description)}`
   
-  // Thực hiện điều hướng
-  window.location.href = deepLink
+  // Thay vì dùng deep link trực tiếp dễ bị Safari chặn, 
+  // chúng ta điều hướng qua trang trung gian của VietQR để kích hoạt mở App ngân hàng
+  const finalLink = `https://vietqr.co/ctrl/open-app?qr=${encodeURIComponent(qrUrl)}`
+  
+  window.location.href = finalLink
 }
 
 const completeOrder = async () => {
