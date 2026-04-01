@@ -51,7 +51,7 @@
           <div class="border-t border-white/5 pt-6">
             <UButton 
               block 
-              variant="ghost"
+              variant="ghost" 
               class="py-4 rounded-2xl font-black uppercase text-[10px] tracking-widest text-slate-400"
               @click="completeOrder"
             >
@@ -71,27 +71,25 @@ const cart = useCookie('user_cart', { default: () => [] })
 const userInfo = useCookie('user_info')
 const cartTotal = computed(() => cart.value.reduce((sum, item) => sum + item.total, 0))
 
-// THÔNG TIN TÀI KHOẢN CỦA BẠN (CẦN CHÍNH XÁC ĐỂ TẠO LINK)
-const BANK_ID = 'OCB' // Mã ngân hàng (ví dụ: MB, VCB, ICB...)
-const ACCOUNT_NO = '106937' // <--- Số tài khoản thực tế của bạn
-const ACCOUNT_NAME = 'HO KINH DOANH GIA KIET'
+// THÔNG TIN TÀI KHOẢN
+const BANK_ID = 'OCB' 
+const ACCOUNT_NO = '106937' 
 
-// Hàm mở App ngân hàng
 const openBankApp = () => {
   const amount = cartTotal.value * 1000
-  const description = `MECOFFEE BAN ${userInfo.value?.table || '01'}`
+  // Nội dung chuyển khoản tự động
+  const description = `ME COFFEE ${userInfo.value?.name || ''} BAN ${userInfo.value?.table || '01'}`
   
-  // VietQR Deep Link format
-  const vietQrUrl = `https://img.vietqr.io/image/${BANK_ID}-${ACCOUNT_NO}-compact2.jpg?amount=${amount}&addInfo=${encodeURIComponent(description)}&accountName=${encodeURIComponent(ACCOUNT_NAME)}`
+  // Đã cập nhật sang link QuickClick của VietQR để mở thẳng App ngân hàng
+  const deepLink = `https://qr.onepay.vn/vietqr/api/v2/create-qr-link?bank=${BANK_ID}&account=${ACCOUNT_NO}&amount=${amount}&info=${encodeURIComponent(description)}`
   
-  // Chuyển hướng khách tới link QR để kích hoạt mở App ngân hàng
-  window.location.href = vietQrUrl
+  // Mở trình chọn App ngân hàng trên điện thoại
+  window.location.href = deepLink
 }
 
 const completeOrder = async () => {
   if (cart.value.length === 0) return
 
-  // Lưu lịch sử cho Admin
   const history = JSON.parse(localStorage.getItem('order_history') || '[]')
   history.unshift({
     id: Date.now(),
@@ -103,7 +101,6 @@ const completeOrder = async () => {
   })
   localStorage.setItem('order_history', JSON.stringify(history))
 
-  // Gửi Telegram
   const TELEGRAM_TOKEN = '8217364376:AAF3UWNbiTbXp8QgiINsssTQKbytkAFCel4'
   const TELEGRAM_CHAT_ID = '6710878225'
 
